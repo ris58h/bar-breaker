@@ -1,0 +1,12 @@
+{
+    "name": "bar-breaker",
+    "scripts": {
+        "test": "mocha --timeout 5000",
+        "dist": "node dist.js"
+    },
+    "devDependencies": {
+        "eslint": "^5.5.0",
+        "mocha": "^5.2.0",
+        "puppeteer": "^1.7.0"
+    }
+}
