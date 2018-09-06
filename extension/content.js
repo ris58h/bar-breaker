@@ -10,7 +10,7 @@ function afterScrollHandler () {
 	}
 }
 
-for (const e of document.body.querySelectorAll('div,nav,header')) {
+for (const e of document.body.querySelectorAll('div,nav,header,section')) {
 	processElement(e)
 }
 

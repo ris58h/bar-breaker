@@ -20,7 +20,7 @@ describe('e2e', () => {
     })
 
     //TODO: cookies
-    describe('www.ft.com', () => {
+    describe('ft.com', () => {
         let page
 
         before(async () => {
@@ -74,7 +74,7 @@ describe('e2e', () => {
         })
     })
 
-    describe('www.planetary.org', () => {
+    describe('planetary.org', () => {
         let page
 
         before(async () => {
@@ -90,7 +90,7 @@ describe('e2e', () => {
         })
     })
 
-    describe('www.polygon.com', () => {
+    describe('polygon.com', () => {
         let page
 
         before(async () => {
@@ -99,6 +99,22 @@ describe('e2e', () => {
 
         it('privacy bar at bottom', async () => {
             await assertDisplayNone(page, '#privacy-consent')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
+    describe.only('techadvisor.co.uk', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://www.techadvisor.co.uk/')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, '#topNav')
         })
 
         after(async () => {
