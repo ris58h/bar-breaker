@@ -106,7 +106,7 @@ describe('e2e', () => {
         })
     })
 
-    describe.only('techadvisor.co.uk', () => {
+    describe('techadvisor.co.uk', () => {
         let page
 
         before(async () => {
