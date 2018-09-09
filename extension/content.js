@@ -31,7 +31,9 @@ function processElement(e) {
 	}
 
 	if (style.position === 'fixed') {
-		if (style.top === '0px') {
+		if (parseFloat(style.bottom) === 0) {
+			breakBar(e)
+		} else if (parseFloat(style.top) >= 0) {
 			const opacity = parseFloat(style.opacity)
 			if (opacity < 1) {
 				breakBar(e)
@@ -41,8 +43,6 @@ function processElement(e) {
 					breakBar(e)
 				}
 			}
-		} else if (style.bottom === '0px') {
-			breakBar(e)
 		}
 	} else if (style.position === 'sticky') {
 		e.style.position = 'static'
