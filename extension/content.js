@@ -33,7 +33,7 @@ function processElement(e) {
 	if (style.position === 'fixed') {
 		if (parseFloat(style.bottom) === 0) {
 			breakBar(e)
-		} else if (parseFloat(style.top) >= 0) {
+		} else if (!isNaN(parseFloat(style.top))) {
 			const opacity = parseFloat(style.opacity)
 			if (opacity < 1) {
 				breakBar(e)
