@@ -45,7 +45,8 @@ function processElement(e) {
 			}
 		}
 	} else if (style.position === 'sticky') {
-		e.style.position = 'static'
+		//TODO tests for this case
+		pinBar(e)
 	}
 }
 
@@ -55,4 +56,8 @@ function breakBar(e) {
 
 function repairBar(e) {
 	e.classList.remove('__bar-breaker__hidden')
+}
+
+function pinBar(e) {
+	e.classList.add('__bar-breaker__static')
 }

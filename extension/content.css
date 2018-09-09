@@ -1,3 +1,7 @@
 .__bar-breaker__hidden {
     display: none !important;
 }
+
+.__bar-breaker__static {
+    position: static !important;
+}
