@@ -127,12 +127,12 @@ describe('e2e', () => {
     })
 
     async function testHeaderAfterScroll(page, selector) {
-        try {
             await page.evaluate(() => { window.scrollBy(0, window.innerHeight) });
+        try {
             await page.waitFor(50) //TODO
             await assertDisplayNone(page, selector)
         } finally {
-            await page.evaluate(() => { window.scrollTo(0, 0) });
+            await page.evaluate(() => { window.scrollBy(0, -window.innerHeight) });
         }
     }
 
