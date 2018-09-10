@@ -62,7 +62,7 @@ describe('e2e', () => {
         })
 
         it('fixed footer', async () => {
-            await assertDisplayNone(page, '.b-discoverytimes-wrapper')
+            await assertDisplayStyleIsNone(page, '.b-discoverytimes-wrapper')
         })
 
         after(async () => {
@@ -83,7 +83,7 @@ describe('e2e', () => {
 
         it.skip('fixed footer', async () => {
             await page.waitFor('.postMeterBar')
-            await assertDisplayNone(page, '.postMeterBar')
+            await assertDisplayStyleIsNone(page, '.postMeterBar')
         })
 
         after(async () => {
@@ -115,7 +115,7 @@ describe('e2e', () => {
         })
 
         it('privacy bar at bottom', async () => {
-            await assertDisplayNone(page, '#privacy-consent')
+            await assertDisplayStyleIsNone(page, '#privacy-consent')
         })
 
         after(async () => {
@@ -226,24 +226,42 @@ describe('e2e', () => {
     })
 
     async function testHeaderAfterScroll(page, selector) {
+        await assertDisplayStyleIsNotNone(page, selector)
         await page.evaluate(() => { window.scrollBy(0, window.innerHeight) });
         try {
             await page.waitFor(50) //TODO
             if (selector instanceof Array) {
                 for (const s of selector) {
-                    await assertDisplayNone(page, s)
+                    await assertDisplayStyleIsNone(page, s)
                 }
             } else {
-                await assertDisplayNone(page, selector)
+                await assertDisplayStyleIsNone(page, selector)
             }
         } finally {
             await page.evaluate(() => { window.scrollBy(0, -window.innerHeight) });
         }
+        await page.waitFor(50) //TODO
+        if (selector instanceof Array) {
+            for (const s of selector) {
+                await assertDisplayStyleIsNotNone(page, s)
+            }
+        } else {
+            await assertDisplayStyleIsNotNone(page, selector)
+        }
     }
 
-    async function assertDisplayNone(page, selector) {
-        const display = await page.$eval(selector, e => getComputedStyle(e).display)
+    async function getDisplayStyle(page, selector) {
+        return await page.$eval(selector, e => getComputedStyle(e).display)
+    }
+
+    async function assertDisplayStyleIsNone(page, selector) {
+        const display = await getDisplayStyle(page, selector)
         assert.equal(display, 'none')
+    }
+
+    async function assertDisplayStyleIsNotNone(page, selector) {
+        const display = await getDisplayStyle(page, selector)
+        assert.notEqual(display, 'none')
     }
 
     async function createPage(url) {
