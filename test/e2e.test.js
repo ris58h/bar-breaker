@@ -205,6 +205,28 @@ describe('e2e', () => {
         })
     })
 
+    describe('vc.ru', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://vc.ru/hr/45373-cifry-srednyaya-zarplata-molodyh-specialistov-v-rossii-po-ocenke-sberbanka')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, '.main_menu')
+        })
+
+        it('sticky header in comments section', async () => {
+            await page.$eval('.comments__item:first-child', e => e.scrollIntoView())
+            const position = await page.$eval('.comments__navigation', e => getComputedStyle(e).position)
+            assert.equal(position, 'static')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
     describe('youtube.com', () => {
         let page
 
