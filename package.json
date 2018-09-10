@@ -1,7 +1,7 @@
 {
     "name": "bar-breaker",
     "scripts": {
-        "test": "mocha --timeout 5000",
+        "test": "mocha --timeout 10000",
         "dist": "node dist.js"
     },
     "devDependencies": {
