@@ -144,7 +144,7 @@ describe('e2e', () => {
         let page
 
         before(async () => {
-            page = await createPage('https://reddit.com')
+            page = await createPage('https://new.reddit.com')
         })
 
         it('fixed header', async () => {
