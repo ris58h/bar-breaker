@@ -1,8 +1,18 @@
 const topBars = []
+const topBarSymbol = Symbol()
+function addToTopBars(e) {
+	if (e[topBarSymbol]) {
+		return
+	}
+	e[topBarSymbol] = true
+	topBars.push(e)
+}
 
 document.addEventListener("scroll", afterScrollHandler)
 
 function afterScrollHandler () {
+	processElements()
+
 	if (window.pageYOffset === 0) {
 		topBars.forEach(repairBar)
 	} else {
@@ -10,8 +20,12 @@ function afterScrollHandler () {
 	}
 }
 
-for (const e of document.body.querySelectorAll('div,nav,header,section')) {
-	processElement(e)
+processElements()
+
+function processElements() {
+	for (const e of document.body.querySelectorAll('div,nav,header,section')) {
+		processElement(e)
+	}
 }
 
 function processElement(e) {
@@ -38,7 +52,7 @@ function processElement(e) {
 			if (opacity < 1) {
 				breakBar(e)
 			} else {
-				topBars.push(e)
+				addToTopBars(e)
 				if (window.pageYOffset > 0) {
 					breakBar(e)
 				}
