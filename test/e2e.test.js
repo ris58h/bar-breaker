@@ -19,6 +19,23 @@ describe('e2e', () => {
         })
     })
 
+    //TODO fix it
+    describe.skip('awwwards.com', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://www.awwwards.com/')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, '#header')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
     //TODO: cookies
     describe('ft.com', () => {
         let page
@@ -106,6 +123,72 @@ describe('e2e', () => {
         })
     })
 
+    //TODO footer
+    describe('quora.com', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://www.quora.com/Are-2-in-1-laptops-worth-buying')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, '.SiteHeader')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
+    describe('reddit.com', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://reddit.com')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, 'header')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
+    describe('stackoverflow.com', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://stackoverflow.com/')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, 'header.top-bar')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
+    //TODO fix it
+    describe.skip('stokedrideshop.com', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://stokedrideshop.com/')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, 'header.site-header', 50)
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
     describe('techadvisor.co.uk', () => {
         let page
 
@@ -114,7 +197,23 @@ describe('e2e', () => {
         })
 
         it('fixed header', async () => {
-            await testHeaderAfterScroll(page, '#topNav')
+            await testHeaderAfterScroll(page, ['#topNav', '#subHeader'])
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
+    describe('youtube.com', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://youtube.com')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, '#masthead-container')
         })
 
         after(async () => {
@@ -127,10 +226,16 @@ describe('e2e', () => {
     })
 
     async function testHeaderAfterScroll(page, selector) {
-            await page.evaluate(() => { window.scrollBy(0, window.innerHeight) });
+        await page.evaluate(() => { window.scrollBy(0, window.innerHeight) });
         try {
             await page.waitFor(50) //TODO
-            await assertDisplayNone(page, selector)
+            if (selector instanceof Array) {
+                for (const s of selector) {
+                    await assertDisplayNone(page, s)
+                }
+            } else {
+                await assertDisplayNone(page, selector)
+            }
         } finally {
             await page.evaluate(() => { window.scrollBy(0, -window.innerHeight) });
         }
