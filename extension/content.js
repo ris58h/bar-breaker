@@ -1,16 +1,21 @@
 const topBars = []
 const topBarSymbol = Symbol()
+
 function addToTopBars(e) {
-	if (e[topBarSymbol]) {
+	if (inTopBars(e)) {
 		return
 	}
 	e[topBarSymbol] = true
 	topBars.push(e)
 }
 
+function inTopBars(e) {
+	return e[topBarSymbol]
+}
+
 document.addEventListener("scroll", afterScrollHandler)
 
-function afterScrollHandler () {
+function afterScrollHandler() {
 	processElements()
 
 	if (window.pageYOffset === 0) {
@@ -29,6 +34,10 @@ function processElements() {
 }
 
 function processElement(e) {
+	if (isBrokenBar(e) || isPinnedBar(e) || inTopBars(e)) {
+		return
+	}
+
 	const minWidth = window.innerWidth / 2
 	const looksLikeBar = e.offsetHeight > 0 && e.offsetWidth > minWidth
 	if (!looksLikeBar) {
@@ -37,7 +46,7 @@ function processElement(e) {
 
 	const style = window.getComputedStyle(e)
 
-	const hidden =  style.display === 'none'
+	const hidden = style.display === 'none'
 		|| (e.offsetParent === null && style.position !== 'fixed')
 		|| style.visibility === 'hidden'
 	if (hidden) {
@@ -72,6 +81,14 @@ function repairBar(e) {
 	e.classList.remove('__bar-breaker__hidden')
 }
 
+function isBrokenBar(e) {
+	return e.classList.contains('__bar-breaker__hidden')
+}
+
 function pinBar(e) {
 	e.classList.add('__bar-breaker__static')
+}
+
+function isPinnedBar(e) {
+	e.classList.contains('__bar-breaker__static')
 }
