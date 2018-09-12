@@ -68,7 +68,6 @@ function processElement(e) {
 			}
 		}
 	} else if (style.position === 'sticky') {
-		//TODO tests for this case
 		pinBar(e)
 	}
 }
