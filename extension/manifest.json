@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
 
-    "name": "bar-breaker",
-    "description": "bar-breaker",
+    "name": "Bar Breaker",
+    "description": "Web Extension that saves your screen space.",
     "version": "0.0.1",
 
     "applications": {
