@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "Bar Breaker",
-    "description": "Web Extension that saves your screen space.",
+    "description": "Hides fixed headers and footers on pages you visit.",
     "version": "0.0.1",
 
     "applications": {
