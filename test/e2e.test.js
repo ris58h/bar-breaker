@@ -140,20 +140,42 @@ describe('e2e', () => {
         })
     })
 
-    describe.only('rbc.ru', () => {
-        let page
+    describe('rbc.ru', () => {
+        describe('main page', () => {
+            let page
 
-        before(async () => {
-            page = await createPage('https://www.rbc.ru/spb_sz/25/09/2018/5baa0ac89a7947decf7446ab')
+            before(async () => {
+                page = await createPage('https://www.rbc.ru')
+            })
+
+            it('fixed header', async () => {
+                await testHeaderAfterScroll(page, [
+                    '.live-tv__overlay__big_close',
+                    '.checkad_info',
+                    '.topline.fixed'
+                ])
+            })
+
+            after(async () => {
+                await page.close()
+            })
         })
 
-        it("bar-breaker should be disabled", async () => {
-            await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
-            await assertDisplayStyleIsNotNone(page, '.rbcslider')
-        })
+        describe('article page', () => {
+            let page
 
-        after(async () => {
-            await page.close()
+            before(async () => {
+                page = await createPage('https://www.rbc.ru/spb_sz/25/09/2018/5baa0ac89a7947decf7446ab')
+            })
+
+            it("bar-breaker should be disabled", async () => {
+                await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
+                await assertDisplayStyleIsNotNone(page, '.rbcslider')
+            })
+
+            after(async () => {
+                await page.close()
+            })
         })
     })
 

@@ -1,6 +1,6 @@
 {
     "exceptions": [
-        "https://www.rbc.ru/*",
+        "https://www.rbc.ru/*/*",
         "https://twitter.com/*"
     ]
 }
