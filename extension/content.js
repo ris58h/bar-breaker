@@ -1,3 +1,5 @@
+let enabled = false
+
 const topBars = []
 const topBarSymbol = Symbol()
 
@@ -13,9 +15,40 @@ function inTopBars(e) {
 	return e[topBarSymbol]
 }
 
+addChangeListener(settingsHandler)
+load(settingsHandler)
+
+function settingsHandler(settings) {
+	const pageUrl = window.location.href
+	const prevEnabled = enabled
+	enabled = !urlInExceptions(pageUrl, settings['exceptions'])
+	if (prevEnabled != enabled) {
+		if (enabled) {
+			processElements()
+		} else {
+			repairAllBars()
+			unpinAllBars()
+		}
+	}
+}
+
+function urlInExceptions(url, exceptions) {
+	for (const line of exceptions) {
+		const r = new RegExp('^' + line.replace(/\*/g, '.*') + '$')
+		if (r.test(url)) {
+			return true;
+		}
+	}
+	return false;
+}
+
 document.addEventListener("scroll", afterScrollHandler)
 
 function afterScrollHandler() {
+	if (!enabled) {
+		return
+	}
+
 	processElements()
 
 	if (window.pageYOffset === 0) {
@@ -24,8 +57,6 @@ function afterScrollHandler() {
 		topBars.forEach(breakBar)
 	}
 }
-
-processElements()
 
 function processElements() {
 	for (const e of document.body.querySelectorAll('div,nav,header,section')) {
@@ -80,12 +111,28 @@ function repairBar(e) {
 	e.classList.remove('__bar-breaker__hidden')
 }
 
+function repairAllBars() {
+	for (const e of document.querySelectorAll('.__bar-breaker__hidden')) {
+		repairBar(e)
+	}
+}
+
 function isBrokenBar(e) {
 	return e.classList.contains('__bar-breaker__hidden')
 }
 
 function pinBar(e) {
 	e.classList.add('__bar-breaker__static')
+}
+
+function unpinBar(e) {
+	e.classList.remove('__bar-breaker__static')
+}
+
+function unpinAllBars() {
+	for (const e of document.querySelectorAll('.__bar-breaker__static')) {
+		unpinBar(e)
+	}
 }
 
 function isPinnedBar(e) {

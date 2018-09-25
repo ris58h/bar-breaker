@@ -140,6 +140,23 @@ describe('e2e', () => {
         })
     })
 
+    describe.only('rbc.ru', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://www.rbc.ru/spb_sz/25/09/2018/5baa0ac89a7947decf7446ab')
+        })
+
+        it("bar-breaker should be disabled", async () => {
+            await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
+            await assertDisplayStyleIsNotNone(page, '.rbcslider')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
     describe('reddit.com', () => {
         let page
 
@@ -205,6 +222,23 @@ describe('e2e', () => {
         })
     })
 
+    describe('twitter.com', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://twitter.com/Blizzard_Ent/status/968727468675809280')
+        })
+
+        it("bar-breaker should be disabled", async () => {
+            await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
+            await assertDisplayStyleIsNotNone(page, '#permalink-overlay')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
     describe('vc.ru', () => {
         let page
 
@@ -249,7 +283,7 @@ describe('e2e', () => {
 
     async function testHeaderAfterScroll(page, selector) {
         await assertDisplayStyleIsNotNone(page, selector)
-        await page.evaluate(() => { window.scrollBy(0, window.innerHeight) });
+        await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
         try {
             await page.waitFor(50) //TODO
             if (selector instanceof Array) {
@@ -260,7 +294,7 @@ describe('e2e', () => {
                 await assertDisplayStyleIsNone(page, selector)
             }
         } finally {
-            await page.evaluate(() => { window.scrollBy(0, -window.innerHeight) });
+            await page.evaluate(() => { window.scrollBy(0, -window.innerHeight) })
         }
         await page.waitFor(50) //TODO
         if (selector instanceof Array) {

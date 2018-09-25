@@ -11,6 +11,10 @@
         }
     },
 
+    "permissions": [
+        "storage"
+    ],
+
     "icons": {
         "16": "icons/icon16.png",
         "48": "icons/icon48.png",
@@ -20,8 +24,12 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["content.js"],
+            "js": ["settings.js", "content.js"],
             "css": ["content.css"]
         }
+    ],
+
+    "web_accessible_resources": [
+        "settings.json"
     ]
 }
