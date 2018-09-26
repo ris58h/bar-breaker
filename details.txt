@@ -1,1 +1,6 @@
 Bar Breaker hides fixed headers and footers on pages you visit. It's useful for users who don't have a large screen.
+
+WARNING:
+It's an experimental extension. It may not work properly on some sites.
+To disable this extension for particular site go to the extension's options page and add the site to exceptions.
+For example to disable Bar Breaker for all pages on example.com add 'https://example.com/*' line (without quotes) to the text field with exceptions.
