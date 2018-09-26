@@ -1,22 +1,9 @@
 let enabled = false
 
-const topBars = []
-const topBarSymbol = Symbol()
-
-function addToTopBars(e) {
-	if (inTopBars(e)) {
-		return
-	}
-	e[topBarSymbol] = true
-	topBars.push(e)
-}
-
-function inTopBars(e) {
-	return e[topBarSymbol]
-}
-
 addChangeListener(settingsHandler)
 load(settingsHandler)
+
+document.addEventListener("scroll", afterScrollHandler)
 
 function settingsHandler(settings) {
 	const pageUrl = window.location.href
@@ -42,8 +29,6 @@ function urlIsInExceptions(url, exceptions) {
 	return false;
 }
 
-document.addEventListener("scroll", afterScrollHandler)
-
 function afterScrollHandler() {
 	if (!enabled) {
 		return
@@ -51,10 +36,12 @@ function afterScrollHandler() {
 
 	processElements()
 
-	if (window.pageYOffset === 0) {
-		topBars.forEach(repairBar)
-	} else {
-		topBars.forEach(breakBar)
+	for (const e of document.querySelectorAll('.__bar-breaker-top')) {
+		if (window.pageYOffset === 0) {
+			repairBar(e)
+		} else {
+			breakBar(e)
+		}
 	}
 }
 
@@ -137,4 +124,15 @@ function unpinPinnedBars() {
 
 function isPinnedBar(e) {
 	e.classList.contains('__bar-breaker__static')
+}
+
+function addToTopBars(e) {
+	if (inTopBars(e)) {
+		return
+	}
+	e.classList.add('__bar-breaker-top')
+}
+
+function inTopBars(e) {
+	return e.classList.contains('__bar-breaker-top')
 }
