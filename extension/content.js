@@ -45,8 +45,10 @@ function afterScrollHandler() {
 	}
 }
 
+const elementsSelector = 'div,nav,header,section'
+	+ ',app-header' // YouTube channel's page header
 function processElements() {
-	for (const e of document.body.querySelectorAll('div,nav,header,section')) {
+	for (const e of document.body.querySelectorAll(elementsSelector)) {
 		processElement(e)
 	}
 }
