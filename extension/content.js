@@ -21,18 +21,18 @@ load(settingsHandler)
 function settingsHandler(settings) {
 	const pageUrl = window.location.href
 	const prevEnabled = enabled
-	enabled = !urlInExceptions(pageUrl, settings['exceptions'])
+	enabled = !urlIsInExceptions(pageUrl, settings['exceptions'])
 	if (prevEnabled != enabled) {
 		if (enabled) {
 			processElements()
 		} else {
-			repairAllBars()
-			unpinAllBars()
+			repairBrokenBars()
+			unpinPinnedBars()
 		}
 	}
 }
 
-function urlInExceptions(url, exceptions) {
+function urlIsInExceptions(url, exceptions) {
 	for (const line of exceptions) {
 		const r = new RegExp('^' + line.replace(/\*/g, '.*') + '$')
 		if (r.test(url)) {
@@ -111,7 +111,7 @@ function repairBar(e) {
 	e.classList.remove('__bar-breaker__hidden')
 }
 
-function repairAllBars() {
+function repairBrokenBars() {
 	for (const e of document.querySelectorAll('.__bar-breaker__hidden')) {
 		repairBar(e)
 	}
@@ -129,7 +129,7 @@ function unpinBar(e) {
 	e.classList.remove('__bar-breaker__static')
 }
 
-function unpinAllBars() {
+function unpinPinnedBars() {
 	for (const e of document.querySelectorAll('.__bar-breaker__static')) {
 		unpinBar(e)
 	}
