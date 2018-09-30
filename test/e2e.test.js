@@ -251,7 +251,7 @@ describe('e2e', () => {
             page = await createPage('https://twitter.com/Blizzard_Ent/status/968727468675809280')
         })
 
-        it("bar-breaker should be disabled", async () => {
+        it("fullscreen popup shouldn't be broken " , async () => {
             await page.evaluate(() => { window.scrollBy(0, window.innerHeight) })
             await assertDisplayStyleIsNotNone(page, '#permalink-overlay')
         })

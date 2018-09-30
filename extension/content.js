@@ -59,7 +59,10 @@ function processElement(e) {
 	}
 
 	const minWidth = window.innerWidth / 2
-	const looksLikeBar = e.offsetHeight > 0 && e.offsetWidth > minWidth
+	const maxHeight = window.innerHeight
+	const looksLikeBar = e.offsetHeight > 0
+		&& e.offsetHeight < maxHeight
+		&& e.offsetWidth > minWidth
 	if (!looksLikeBar) {
 		return
 	}
