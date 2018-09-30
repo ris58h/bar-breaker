@@ -70,6 +70,22 @@ describe('e2e', () => {
         })
     })
 
+    describe.skip('marketplace.visualstudio.com', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint')
+        })
+
+        it('fixed header', async () => {
+            await testHeaderAfterScroll(page, ['#section-banner', "[role='tablist']"])
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
     describe('medium.com', () => {
         let page
 
