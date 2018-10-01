@@ -48,6 +48,7 @@ function afterScrollHandler() {
 const elementsSelector = 'div,nav,header,section'
 	+ ',ul' // VSCode Marketplace
 	+ ',app-header' // YouTube channel's page header
+	+ ',cloudflare-app' // Cloudflare cookies bar
 function processElements() {
 	for (const e of document.body.querySelectorAll(elementsSelector)) {
 		processElement(e)

@@ -36,6 +36,22 @@ describe('e2e', () => {
         })
     })
 
+    describe('blog.gradle.org', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://blog.gradle.org/')
+        })
+
+        it('cookies footer', async () => {
+            await assertDisplayStyleIsNone(page, 'cloudflare-app')
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
     //TODO: cookies
     describe('ft.com', () => {
         let page
