@@ -5,6 +5,14 @@ load(settingsHandler)
 
 document.addEventListener("scroll", afterScrollHandler)
 
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+	if (request.type == 'getBrokenBarsNumber') {
+		const numBrokenSelector = '.__bar-breaker__hidden,.__bar-breaker__static'
+		const numBroken = document.querySelectorAll(numBrokenSelector).length
+		sendResponse({ data: numBroken })
+	}
+})
+
 function settingsHandler(settings) {
 	const pageUrl = window.location.href
 	const prevEnabled = enabled
