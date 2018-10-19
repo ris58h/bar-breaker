@@ -1,5 +1,5 @@
 const BADGE_BACKGROUND_COLOR = 'gray'
-browser.browserAction.setBadgeBackgroundColor({color: BADGE_BACKGROUND_COLOR})
+chrome.browserAction.setBadgeBackgroundColor({color: BADGE_BACKGROUND_COLOR})
 
 chrome.runtime.onMessage.addListener(function(message, sender) {
     if (message.type == 'updateBadge') {
