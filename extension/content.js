@@ -6,15 +6,16 @@ load(settingsHandler)
 document.addEventListener("scroll", afterScrollHandler)
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	if (request.type == 'getBrokenBarsNumber') {
-		sendResponse({ data: getBrokenBarsNumber() })
+	if (request.type == 'getNumBroken') {
+		sendResponse({ data: getNumBroken() })
+	} else if (request.type == 'setEnabled') {
+		setEnabled(request.data)
 	}
 })
 
-function settingsHandler(settings) {
-	const pageUrl = window.location.href
+function setEnabled(value) {
 	const prevEnabled = enabled
-	enabled = !urlIsInExceptions(pageUrl, settings['exceptions'])
+	enabled = value
 	if (prevEnabled != enabled) {
 		if (enabled) {
 			processElements()
@@ -23,6 +24,11 @@ function settingsHandler(settings) {
 			unpinPinnedBars()
 		}
 	}
+}
+
+function settingsHandler(settings) {
+	const pageUrl = window.location.href
+	setEnabled(!urlIsInExceptions(pageUrl, settings['exceptions']))
 }
 
 function urlIsInExceptions(url, exceptions) {
@@ -154,13 +160,12 @@ function inTopBars(e) {
 	return e.classList.contains('__bar-breaker-top')
 }
 
-function getBrokenBarsNumber() {
+function getNumBroken() {
 	const selector = '.__bar-breaker__hidden,.__bar-breaker__static'
 	return document.querySelectorAll(selector).length
 }
 
 function updateBadge() {
-	const numBroken = getBrokenBarsNumber()
-	const text = numBroken > 0 ? '' + numBroken : ''
-	chrome.runtime.sendMessage({ type: 'updateBadge', data: { text }})
+	const numBroken = getNumBroken()
+	chrome.runtime.sendMessage({ type: 'numBrokenChanged', data: numBroken})
 }
