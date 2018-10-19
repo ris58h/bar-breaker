@@ -19,7 +19,7 @@ function settingsHandler(settings) {
 		if (enabled) {
 			processElements()
 		} else {
-			repairBrokenBars()
+			showHiddenBars()
 			unpinPinnedBars()
 		}
 	}
@@ -44,9 +44,9 @@ function afterScrollHandler() {
 
 	for (const e of document.querySelectorAll('.__bar-breaker-top')) {
 		if (window.pageYOffset === 0) {
-			repairBar(e)
+			showBar(e)
 		} else {
-			breakBar(e)
+			hideBar(e)
 		}
 	}
 }
@@ -62,7 +62,7 @@ function processElements() {
 }
 
 function processElement(e) {
-	if (isBrokenBar(e) || isPinnedBar(e) || inTopBars(e)) {
+	if (isHiddenBar(e) || isPinnedBar(e) || inTopBars(e)) {
 		return
 	}
 
@@ -86,15 +86,15 @@ function processElement(e) {
 
 	if (style.position === 'fixed') {
 		if (parseFloat(style.bottom) === 0) {
-			breakBar(e)
+			hideBar(e)
 		} else if (!isNaN(parseFloat(style.top))) {
 			const opacity = parseFloat(style.opacity)
 			if (opacity < 1) {
-				breakBar(e)
+				hideBar(e)
 			} else {
 				addToTopBars(e)
 				if (window.pageYOffset > 0) {
-					breakBar(e)
+					hideBar(e)
 				}
 			}
 		}
@@ -103,23 +103,23 @@ function processElement(e) {
 	}
 }
 
-function breakBar(e) {
+function hideBar(e) {
 	e.classList.add('__bar-breaker__hidden')
 	updateBadge()
 }
 
-function repairBar(e) {
+function showBar(e) {
 	e.classList.remove('__bar-breaker__hidden')
 	updateBadge()
 }
 
-function repairBrokenBars() {
+function showHiddenBars() {
 	for (const e of document.querySelectorAll('.__bar-breaker__hidden')) {
-		repairBar(e)
+		showBar(e)
 	}
 }
 
-function isBrokenBar(e) {
+function isHiddenBar(e) {
 	return e.classList.contains('__bar-breaker__hidden')
 }
 
