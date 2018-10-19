@@ -7,9 +7,7 @@ document.addEventListener("scroll", afterScrollHandler)
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.type == 'getBrokenBarsNumber') {
-		const numBrokenSelector = '.__bar-breaker__hidden,.__bar-breaker__static'
-		const numBroken = document.querySelectorAll(numBrokenSelector).length
-		sendResponse({ data: numBroken })
+		sendResponse({ data: getBrokenBarsNumber() })
 	}
 })
 
@@ -107,10 +105,12 @@ function processElement(e) {
 
 function breakBar(e) {
 	e.classList.add('__bar-breaker__hidden')
+	updateBadge()
 }
 
 function repairBar(e) {
 	e.classList.remove('__bar-breaker__hidden')
+	updateBadge()
 }
 
 function repairBrokenBars() {
@@ -125,10 +125,12 @@ function isBrokenBar(e) {
 
 function pinBar(e) {
 	e.classList.add('__bar-breaker__static')
+	updateBadge()
 }
 
 function unpinBar(e) {
 	e.classList.remove('__bar-breaker__static')
+	updateBadge()
 }
 
 function unpinPinnedBars() {
@@ -150,4 +152,15 @@ function addToTopBars(e) {
 
 function inTopBars(e) {
 	return e.classList.contains('__bar-breaker-top')
+}
+
+function getBrokenBarsNumber() {
+	const selector = '.__bar-breaker__hidden,.__bar-breaker__static'
+	return document.querySelectorAll(selector).length
+}
+
+function updateBadge() {
+	const numBroken = getBrokenBarsNumber()
+	const text = numBroken > 0 ? '' + numBroken : ''
+	chrome.runtime.sendMessage({ type: 'updateBadge', data: { text }})
 }
