@@ -1,8 +1,15 @@
+body {
+    width: 150px;
+}
+
 #main {
     margin: 16px 0;
-    width: 150px;
 }
 
 #main > * {
     margin: 8px;
+}
+
+#not-available-stub {
+    margin: 16px 8px;
 }

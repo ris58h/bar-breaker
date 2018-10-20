@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const tabId = tabs[0].id
         chrome.tabs.sendMessage(tabId, { type : 'getNumBroken' }, function (response) {
             if (response) {
+                document.getElementById('not-available-stub').style.display = 'none'
                 updateMessage(response.data)
                 chrome.runtime.onMessage.addListener(function(message, sender) {
                     if (sender.tab.id == tabId) {
