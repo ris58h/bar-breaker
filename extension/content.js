@@ -68,7 +68,12 @@ function processElements() {
 }
 
 function processElement(e) {
-	if (isHiddenBar(e) || isPinnedBar(e) || inTopBars(e)) {
+	if (isHiddenBar(e) || isPinnedBar(e)) {
+		return
+	}
+
+	if (inTopBars(e) && window.pageYOffset > 0) {
+		hideBar(e)
 		return
 	}
 
@@ -167,5 +172,5 @@ function getNumBroken() {
 
 function updateBadge() {
 	const numBroken = getNumBroken()
-	chrome.runtime.sendMessage({ type: 'numBrokenChanged', data: numBroken})
+	chrome.runtime.sendMessage({ type: 'numBrokenChanged', data: numBroken })
 }
