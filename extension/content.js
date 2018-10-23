@@ -6,8 +6,13 @@ load(settingsHandler)
 document.addEventListener("scroll", afterScrollHandler)
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	if (request.type == 'getNumBroken') {
-		sendResponse({ data: getNumBroken() })
+	if (request.type == 'getState') {
+		sendResponse({
+			data: {
+				enabled,
+				numBroken: getNumBroken()
+			}
+		})
 	} else if (request.type == 'setEnabled') {
 		setEnabled(request.data)
 	}

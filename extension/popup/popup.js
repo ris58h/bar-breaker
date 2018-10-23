@@ -1,14 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
     chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
         const tabId = tabs[0].id
-        chrome.tabs.sendMessage(tabId, { type : 'getNumBroken' }, function (response) {
+        chrome.tabs.sendMessage(tabId, { type : 'getState' }, function (response) {
             if (response) {
                 document.getElementById('not-available-stub').style.display = 'none'
-                updateMessage(response.data)
+                renderState(response.data)
                 chrome.runtime.onMessage.addListener(function(message, sender) {
                     if (sender.tab.id == tabId) {
                         if (message.type == 'numBrokenChanged') {
-                            updateMessage(message.data)
+                            renderNumBroken(message.data)
                         }
                     }
                 })
@@ -23,7 +23,12 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 })
 
-function updateMessage(numBroken) {
+function renderState(state) {
+    renderNumBroken(state.numBroken)
+    document.getElementById('enabled').checked = state.enabled
+}
+
+function renderNumBroken(numBroken) {
     const message = numBroken == 1 ? "1 bar broken" : numBroken + " bars broken"
     document.getElementById('message').textContent = message
 }
