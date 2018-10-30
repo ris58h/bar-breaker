@@ -29,6 +29,5 @@ function renderState(state) {
 }
 
 function renderNumBroken(numBroken) {
-    const message = numBroken == 1 ? "1 bar broken" : numBroken + " bars broken"
-    document.getElementById('message').textContent = message
+    document.getElementById('num-broken').textContent = "" + numBroken
 }
