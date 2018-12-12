@@ -73,7 +73,18 @@ function processElements() {
 }
 
 function processElement(e) {
-	if (isHiddenBar(e) || isPinnedBar(e)) {
+	if (isHiddenBar(e)) {
+		if (inTopBars(e)) {
+			const style = window.getComputedStyle(e)
+			if (style.position !== 'fixed') {
+				removeFromTopBars(e)
+				showBar(e)
+				return
+			}
+		}
+		return
+	}
+	if (isPinnedBar(e)) {
 		return
 	}
 
