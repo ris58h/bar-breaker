@@ -86,6 +86,31 @@ describe('e2e', () => {
         })
     })
 
+    describe('market.yandex.ru', () => {
+        let page
+
+        before(async () => {
+            page = await createPage('https://market.yandex.ru/compare/3V5CaKAh3W6DQvfp5g3gL3cgcVv3?hid=91013&id=217024259')
+        })
+
+        it('fixed header in the middle of the page', async () => {
+            const menuSelector = '.n-compare-head__content'
+            await assertDisplayStyleIsNotNone(page, menuSelector)
+            await page.$eval('.n-compare-group_type_info', e => e.scrollIntoView())
+            // second call is just a hack to actually make bar-breaker work
+            await page.$eval('.n-compare-group_type_info', e => e.scrollIntoView())
+            await page.waitFor(100) //TODO
+            await assertDisplayStyleIsNone(page, menuSelector)
+            await page.evaluate(() => { window.scrollTo(0, 0) })
+            await page.waitFor(100) //TODO
+            await assertDisplayStyleIsNotNone(page, menuSelector)
+        })
+
+        after(async () => {
+            await page.close()
+        })
+    })
+
     describe.skip('marketplace.visualstudio.com', () => {
         let page
 
