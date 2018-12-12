@@ -177,6 +177,10 @@ function addToTopBars(e) {
 	e.classList.add('__bar-breaker-top')
 }
 
+function removeFromTopBars(e) {
+	e.classList.remove('__bar-breaker-top')
+}
+
 function inTopBars(e) {
 	return e.classList.contains('__bar-breaker-top')
 }
