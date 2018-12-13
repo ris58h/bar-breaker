@@ -50,16 +50,7 @@ function afterScrollHandler() {
 	if (!enabled) {
 		return
 	}
-
 	processElements()
-
-	for (const e of document.querySelectorAll('.__bar-breaker-top')) {
-		if (window.pageYOffset === 0) {
-			showBar(e)
-		} else {
-			hideBar(e)
-		}
-	}
 }
 
 const elementsSelector = 'div,nav,header,section'
@@ -81,6 +72,10 @@ function processElement(e) {
 				showBar(e)
 				return
 			}
+			if (window.pageYOffset === 0) {
+				showBar(e)
+				return
+			}
 		}
 		return
 	}
@@ -88,8 +83,10 @@ function processElement(e) {
 		return
 	}
 
-	if (inTopBars(e) && window.pageYOffset > 0) {
-		hideBar(e)
+	if (inTopBars(e)) {
+		if (window.pageYOffset > 0) {
+			hideBar(e)
+		}
 		return
 	}
 
