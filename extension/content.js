@@ -1,20 +1,15 @@
 let enabled = false
 
+updateBadge()
+
 addChangeListener(settingsHandler)
 load(settingsHandler)
 
 document.addEventListener("scroll", afterScrollHandler)
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	if (request.type == 'getState') {
-		sendResponse({
-			data: {
-				enabled,
-				numBroken: getNumBroken()
-			}
-		})
-	} else if (request.type == 'setEnabled') {
-		setEnabled(request.data)
+chrome.runtime.onMessage.addListener(request => {
+	if (request.type == 'toggleEnabled') {
+		setEnabled(!enabled)
 	}
 })
 
@@ -28,6 +23,7 @@ function setEnabled(value) {
 			showHiddenBars()
 			unpinPinnedBars()
 		}
+		updateBadge()
 	}
 }
 
@@ -188,6 +184,11 @@ function getNumBroken() {
 }
 
 function updateBadge() {
-	const numBroken = getNumBroken()
-	chrome.runtime.sendMessage({ type: 'numBrokenChanged', data: numBroken })
+	chrome.runtime.sendMessage({
+		type: 'stateChanged',
+		data: {
+			enabled,
+			numBroken: getNumBroken()
+		}
+	})
 }
