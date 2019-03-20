@@ -1,5 +1,5 @@
 function loadDefault(callback) {
-    const settingsUrl = chrome.runtime.getURL('settings.json')
+    const settingsUrl = chrome.runtime.getURL('settings/settings.json')
     fetch(settingsUrl).then(function(response) {
         response.json().then(function(settings) {
             callback(settings)

@@ -41,12 +41,12 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
-            "js": ["settings.js", "content.js"],
+            "js": ["settings/settings.js", "content.js"],
             "css": ["content.css"]
         }
     ],
 
     "web_accessible_resources": [
-        "settings.json"
+        "settings/settings.json"
     ]
 }
