@@ -106,7 +106,9 @@ function processElement(e) {
 
 	if (style.position === 'fixed') {
 		if (parseFloat(style.bottom) === 0) {
-			hideBar(e)
+			if (!seemsLikeBottomMenu(e)) {
+				hideBar(e)
+			}
 		} else if (!isNaN(parseFloat(style.top))) {
 			const opacity = parseFloat(style.opacity)
 			if (opacity < 1) {
@@ -121,6 +123,10 @@ function processElement(e) {
 	} else if (style.position === 'sticky') {
 		pinBar(e)
 	}
+}
+
+function seemsLikeBottomMenu(e) {
+	return e.tagName === 'NAV'
 }
 
 function hideBar(e) {
