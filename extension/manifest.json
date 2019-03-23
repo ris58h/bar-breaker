@@ -34,6 +34,12 @@
         "default_title": "Bar Breaker"
     },
 
+    "commands": {
+        "toggle-enabled": {
+            "description": "Toggle Bar Breaker on a current page"
+        }
+    },
+
     "background": {
         "scripts": ["background.js"]
     },

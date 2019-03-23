@@ -35,6 +35,17 @@ function brokenMessage(numBroken) {
     return numBroken + ' broken'
 }
 
+function toggleEnabled(tabId) {
+    chrome.tabs.sendMessage(tabId, { type : 'toggleEnabled' })
+}
+
 chrome.browserAction.onClicked.addListener(tab => {
-    chrome.tabs.sendMessage(tab.id, { type : 'toggleEnabled' })
+    toggleEnabled(tab.id)
+})
+
+browser.commands.onCommand.addListener(() => {
+    chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
+        const tab = tabs[0]
+        toggleEnabled(tab.id)
+    })
 })
