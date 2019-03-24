@@ -3,7 +3,7 @@
 
     "name": "Bar Breaker",
     "description": "Hides fixed headers and footers on pages you visit.",
-    "version": "0.4.0",
+    "version": "0.4.1",
 
     "applications": {
         "gecko": {
