@@ -36,7 +36,7 @@
 
     "commands": {
         "toggle-enabled": {
-            "description": "Toggle Bar Breaker on a current page"
+            "description": "Toggle Bar Breaker on the current page"
         }
     },
 
