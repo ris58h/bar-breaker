@@ -29,10 +29,10 @@ function setEnabled(value) {
 
 function settingsHandler(settings) {
 	const pageUrl = window.location.href
-	setEnabled(!urlIsInExceptions(pageUrl, settings['exceptions']))
+	setEnabled(!isUrlInExceptions(pageUrl, settings['exceptions']))
 }
 
-function urlIsInExceptions(url, exceptions) {
+function isUrlInExceptions(url, exceptions) {
 	for (const line of exceptions) {
 		const r = new RegExp('^' + line.replace(/\*/g, '.*') + '$')
 		if (r.test(url)) {
@@ -49,19 +49,26 @@ function afterScrollHandler() {
 	processElements()
 }
 
-const elementsSelector = 'div,nav,header,section'
-	+ ',ul' // VSCode Marketplace
-	+ ',app-header' // YouTube channel's page header
-	+ ',cloudflare-app' // Cloudflare cookies bar
+const skipElementSelector = 'script,noscript,style,svg,iframe,meta,form'
 function processElements() {
-	for (const e of document.body.querySelectorAll(elementsSelector)) {
-		processElement(e)
+	const elements = []
+	elements.push(document.body)
+	while (elements.length > 0) {
+		const element = elements.pop()
+		for (const child of element.childNodes) {
+			if (child.matches && !child.matches(skipElementSelector)) {
+				processElement(child)
+				if (child.hasChildNodes && child.hasChildNodes()) {
+					elements.push(child)
+				}
+			}
+		}
 	}
 }
 
 function processElement(e) {
 	if (isHiddenBar(e)) {
-		if (inTopBars(e)) {
+		if (isInTopBars(e)) {
 			const style = window.getComputedStyle(e)
 			if (style.position !== 'fixed') {
 				removeFromTopBars(e)
@@ -79,7 +86,7 @@ function processElement(e) {
 		return
 	}
 
-	if (inTopBars(e)) {
+	if (isInTopBars(e)) {
 		if (window.pageYOffset > 0) {
 			hideBar(e)
 		}
@@ -170,7 +177,7 @@ function isPinnedBar(e) {
 }
 
 function addToTopBars(e) {
-	if (inTopBars(e)) {
+	if (isInTopBars(e)) {
 		return
 	}
 	e.classList.add('__bar-breaker-top')
@@ -180,7 +187,7 @@ function removeFromTopBars(e) {
 	e.classList.remove('__bar-breaker-top')
 }
 
-function inTopBars(e) {
+function isInTopBars(e) {
 	return e.classList.contains('__bar-breaker-top')
 }
 
