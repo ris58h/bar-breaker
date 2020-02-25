@@ -5,7 +5,13 @@ updateBadge()
 addChangeListener(settingsHandler)
 load(settingsHandler)
 
-document.addEventListener("scroll", afterScrollHandler)
+let timer = null;
+window.addEventListener('scroll', () => {
+    if (timer !== null) {
+        clearTimeout(timer);        
+    }
+    timer = setTimeout(afterScrollHandler, 100);
+}, false);
 
 chrome.runtime.onMessage.addListener(request => {
 	if (request.type == 'toggleEnabled') {
