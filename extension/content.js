@@ -55,14 +55,19 @@ function afterScrollHandler() {
 	processElements()
 }
 
-const skipElementSelector = 'script,noscript,style,svg,iframe,meta,form'
+const skipTagsSelector = 'SCRIPT,NOSCRIPT,STYLE,svg,IFRAME,META,FORM,TABLE,DL,OL,UL,P'
+const skipTags = new Set()
+for (const skipTag of skipTagsSelector.split(',')) {
+	skipTags.add(skipTag)
+}
+
 function processElements() {
 	const elements = []
 	elements.push(document.body)
 	while (elements.length > 0) {
 		const element = elements.pop()
 		for (const child of element.childNodes) {
-			if (child.matches && !child.matches(skipElementSelector)) {
+			if (child.tagName && !skipTags.has(child.tagName)) {
 				processElement(child)
 				if (child.hasChildNodes && child.hasChildNodes()) {
 					elements.push(child)
