@@ -106,9 +106,7 @@ function processElement(e) {
 
 	const minWidth = window.innerWidth / 2
 	const maxHeight = window.innerHeight
-	const looksLikeBar = e.offsetHeight > 0
-		&& e.offsetHeight < maxHeight
-		&& e.offsetWidth > minWidth
+	const looksLikeBar = e.offsetHeight < maxHeight && e.offsetWidth > minWidth
 	if (!looksLikeBar) {
 		return
 	}
