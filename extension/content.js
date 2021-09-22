@@ -123,14 +123,9 @@ function processElement(e) {
 				hideBar(e)
 			}
 		} else if (!isNaN(parseFloat(style.top))) {
-			const opacity = parseFloat(style.opacity)
-			if (opacity < 1) {
+			addToTopBars(e)
+			if (window.pageYOffset > 0) {
 				hideBar(e)
-			} else {
-				addToTopBars(e)
-				if (window.pageYOffset > 0) {
-					hideBar(e)
-				}
 			}
 		}
 	} else if (style.position === 'sticky') {
