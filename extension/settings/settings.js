@@ -1,29 +1,29 @@
-function loadDefault(callback) {
+const settings = {}
+
+settings.loadDefault = function(callback) {
     const settingsUrl = chrome.runtime.getURL('settings/settings.json')
     fetch(settingsUrl).then(function(response) {
-        response.json().then(function(settings) {
-            callback(settings)
-        })
+        response.json().then(callback)
     })
 }
 
-function load(callback) {
+settings.load = function(callback) {
     chrome.storage.sync.get("settings", function(result) {
         if (result && result.settings) {
             callback(result.settings)
         } else {
-            loadDefault(callback)
+            settings.loadDefault(callback)
         }
     })
 }
 
-function save(settings) {
+settings.save = function(newSettings) {
     chrome.storage.sync.set({
-        "settings": settings
+        "settings": newSettings
     })
 }
 
-function addChangeListener(listener) {
+settings.addChangeListener = function(listener) {
     chrome.storage.onChanged.addListener(function (changes) {
         for (const key in changes) {
             if (key == "settings") {
