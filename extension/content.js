@@ -5,13 +5,13 @@ updateBadge()
 addChangeListener(settingsHandler)
 load(settingsHandler)
 
-let timer = null;
+let timer = null
 window.addEventListener('scroll', () => {
     if (timer !== null) {
-        clearTimeout(timer);        
+        clearTimeout(timer)      
     }
-    timer = setTimeout(afterScrollHandler, 100);
-}, false);
+    timer = setTimeout(processElements, 100)
+}, false)
 
 chrome.runtime.onMessage.addListener(request => {
 	if (request.type == 'toggleEnabled') {
@@ -42,17 +42,10 @@ function isUrlInExceptions(url, exceptions) {
 	for (const line of exceptions) {
 		const r = new RegExp('^' + line.replace(/\*/g, '.*') + '$')
 		if (r.test(url)) {
-			return true;
+			return true
 		}
 	}
-	return false;
-}
-
-function afterScrollHandler() {
-	if (!enabled) {
-		return
-	}
-	processElements()
+	return false
 }
 
 const skipTagsSelector = 'SCRIPT,NOSCRIPT,STYLE,svg,IFRAME,META,FORM,TABLE,DL,OL,UL,P'
@@ -62,6 +55,10 @@ for (const skipTag of skipTagsSelector.split(',')) {
 }
 
 function processElements() {
+	if (!enabled) {
+		return
+	}
+
 	const elements = []
 	elements.push(document.body)
 	while (elements.length > 0) {
