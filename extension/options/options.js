@@ -1,24 +1,22 @@
-const options = {}
-
-options.save = function() {
+function saveOptions() {
     const exceptions = document.querySelector("#exceptions").value
         .split('\n')
         .filter(line => line.length > 0)
-    settings.save({ exceptions })
+    extension.settings.save({ exceptions })
 }
 
-options.restore = function() {
-    settings.load(options.renderSettings)
+function restoreOptions() {
+    extension.settings.load(renderSettings)
 }
 
-options.restoreDefault = function() {
-    settings.loadDefault(options.renderSettings)
+function restoreDefault() {
+    extension.settings.loadDefault(renderSettings)
 }
 
-options.renderSettings = function(settings) {
+function renderSettings(settings) {
     document.querySelector("#exceptions").value = settings["exceptions"].join('\n')
 }
 
-document.addEventListener("DOMContentLoaded", options.restore)
-document.querySelector("#save").addEventListener("click", options.save)
-document.querySelector("#default").addEventListener("click", options.restoreDefault)
+document.addEventListener("DOMContentLoaded", restoreOptions)
+document.querySelector("#save").addEventListener("click", saveOptions)
+document.querySelector("#default").addEventListener("click", restoreDefault)

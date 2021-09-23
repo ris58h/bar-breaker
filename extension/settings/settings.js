@@ -1,29 +1,30 @@
-const settings = {}
+extension = typeof extension === 'undefined' ? {} : extension
+extension.settings = {}
 
-settings.loadDefault = function(callback) {
+extension.settings.loadDefault = function(callback) {
     const settingsUrl = chrome.runtime.getURL('settings/settings.json')
     fetch(settingsUrl).then(function(response) {
         response.json().then(callback)
     })
 }
 
-settings.load = function(callback) {
+extension.settings.load = function(callback) {
     chrome.storage.sync.get("settings", function(result) {
         if (result && result.settings) {
             callback(result.settings)
         } else {
-            settings.loadDefault(callback)
+            extension.settings.loadDefault(callback)
         }
     })
 }
 
-settings.save = function(newSettings) {
+extension.settings.save = function(settings) {
     chrome.storage.sync.set({
-        "settings": newSettings
+        "settings": settings
     })
 }
 
-settings.addChangeListener = function(listener) {
+extension.settings.addChangeListener = function(listener) {
     chrome.storage.onChanged.addListener(function (changes) {
         for (const key in changes) {
             if (key == "settings") {

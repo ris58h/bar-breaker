@@ -2,8 +2,8 @@ let enabled = false
 
 updateBadge()
 
-settings.addChangeListener(settingsHandler)
-settings.load(settingsHandler)
+extension.settings.addChangeListener(settingsHandler)
+extension.settings.load(settingsHandler)
 
 let timer = null
 window.addEventListener('scroll', () => {
