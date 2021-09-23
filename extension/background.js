@@ -29,7 +29,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
             chrome.browserAction.setBadgeText({ tabId, text })
         }
 
-        const titleInfo = enabled ? (numBroken > 0 ? brokenMessage(numBroken) : 'enabled') : 'disabled'
+        const titleInfo = enabled ? brokenMessage(numBroken) : 'disabled'
         const title = `Bar Breaker (${titleInfo})`
         chrome.browserAction.setTitle({ tabId, title })
 
@@ -41,7 +41,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 })
 
 function brokenMessage(numBroken) {
-    return numBroken + ' broken'
+    return numBroken > 0 ? (numBroken + ' broken') : 'no broken'
 }
 
 function toggleEnabled(tabId) {
