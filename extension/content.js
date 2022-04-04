@@ -48,7 +48,7 @@ function isUrlInExceptions(url, exceptions) {
 	return false
 }
 
-const skipTagsSelector = 'SCRIPT,NOSCRIPT,STYLE,svg,IFRAME,META,FORM,TABLE,DL,OL,UL,P'
+const skipTagsSelector = 'SCRIPT,NOSCRIPT,STYLE,svg,IFRAME,META,FORM,TABLE,DL,OL,P'
 const skipTags = new Set()
 for (const skipTag of skipTagsSelector.split(',')) {
 	skipTags.add(skipTag)
