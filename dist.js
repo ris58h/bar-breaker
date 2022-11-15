@@ -1,15 +1,19 @@
-const fs = require('fs-extra')
-const archiver = require('archiver')
+import fs from 'fs'
+import archiver from 'archiver'
 
-{(async function() {
-    await fs.remove("./dist")
-    await fs.ensureDir("./dist")
+fs.rmSync("./dist", {recursive: true, force: true})
+fs.mkdirSync("./dist")
 
-    const version = (await fs.readJson("./extension/manifest.json")).version
-    const output = fs.createWriteStream(`./dist/bar-breaker-${version}.zip`)
-    const archive = archiver("zip")
-    archive.pipe(output)
-    archive.glob("**/*", { cwd: "./extension" })
-    archive.on("error", err => { throw err })
-    archive.finalize()
-})()}
+const name = process.env.npm_package_name
+const version = readJsonSync("./extension/manifest.json").version
+const output = fs.createWriteStream(`./dist/${name}-${version}.zip`)
+const archive = archiver("zip")
+archive.pipe(output)
+archive.glob("**/*", { cwd: "./extension" })
+archive.on("error", err => { throw err })
+archive.finalize()
+
+function readJsonSync(path) {
+    const content = fs.readFileSync(path, "utf8")
+    return JSON.parse(content)
+}
