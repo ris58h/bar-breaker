@@ -1,5 +1,6 @@
 {
     "name": "bar-breaker",
+    "type": "module",
     "scripts": {
         "dist": "node dist.js"
     },
