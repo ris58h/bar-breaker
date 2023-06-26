@@ -1,14 +1,10 @@
 {
     "name": "bar-breaker",
     "scripts": {
-        "test": "mocha --timeout 10000",
         "dist": "node dist.js"
     },
     "devDependencies": {
         "archiver": "^3.1.1",
-        "eslint": "^5.16.0",
-        "fs-extra": "^7.0.1",
-        "mocha": "^5.2.0",
-        "puppeteer": "^1.20.0"
+        "eslint": "^5.16.0"
     }
 }
